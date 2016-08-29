@@ -8,5 +8,7 @@
             "email": "osenouci@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "slim/slim": "^3.5"
+    }
 }
