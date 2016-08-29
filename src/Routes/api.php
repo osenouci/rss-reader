@@ -2,7 +2,7 @@
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
-$app->group('/api', function ()  {
+$app->group('/api', function () use ($app) {
 
     // Get the list of categories
     $this->get('/categories', function ($request, $response, $args){
@@ -12,14 +12,26 @@ $app->group('/api', function ()  {
     });
 
     // Get the articles
-    $this->group('/articles', function () {
+    $this->group('/articles', function ()  use ($app) {
 
-        $this->get('/home-page', function ($request, $response, $args) {
+        $this->get('/category', function ($request, $response, $args)  use ($app) {
 
+            $homeCategory = $this->newsService->getHomePageCategory();
+
+            $result = $this->newsService->getCategoryNews($homeCategory);
+            $response->withAddedHeader('Content-Type','application/json');
+            $response->getBody()->write(json_encode($result));
         });
         $this->get('/category/{category}', function ($request, $response, $args) {
 
-        });
+            $result = [];
+            if(!empty($args['category'])){
+                $result = $this->newsService->getCategoryNews($args['category']);
+            }
+
+            $response->withAddedHeader('Content-Type','application/json');
+            $response->getBody()->write(json_encode($result));
+        })->setName('category-news-getter');
     });
 
     // Update the sources (List and switch between news sources)
@@ -30,7 +42,16 @@ $app->group('/api', function ()  {
         $response->getBody()->write(json_encode($data));
     });
     $this->put("/sources", function($request, $response, $args){
-        //$data = RSSReader\NewsSources\NewsAdapterFactory::getSource();
+
+        $response->withAddedHeader('Content-Type','application/json');
+        $newsSource = $request->getParam('newsSource');
+
+        if(!RSSReader\NewsSources\NewsAdapterFactory::isValidSource($newsSource)) {
+            $response->getBody()->write(json_encode(false));
+        }
+
+        $this->storage->setNewsSource($newsSource);
+        $response->getBody()->write(json_encode(true));
     });
 
     // Manage the favorites
@@ -39,14 +60,35 @@ $app->group('/api', function ()  {
         // Get the list of favorite categories
         $this->get('/categories', function ($request, $response, $args) {
 
+            $response->withAddedHeader('Content-Type','application/json');
+            $response->getBody()->write(json_encode(array_values($this->storage->getFavoriteCategories())));
         });
         // Update book with ID
-        $this->post('/category/{category}', function ($request, $response, $args) {
-            $category = $request->getAttribute("category");
+        $this->post('/category', function ($request, $response, $args) {
+
+            $response->withAddedHeader('Content-Type','application/json');
+            $category = (string) $request->getParam("category");
+
+            if(empty($category)) {
+                $response->getBody()->write(json_encode(false));
+            }else{
+
+                $this->storage->addFavoriteCategory($category);
+                $response->getBody()->write(json_encode(true));
+            }
         });
         // Delete book with ID
-        $this->delete('/category/{category}', function ($request, $response, $args) {
-            $category = $request->getAttribute("category");
+        $this->delete('/category', function ($request, $response, $args) {
+
+            $response->withAddedHeader('Content-Type','application/json');
+            $category = (string) $request->getParam("category");
+
+            if(empty($category)) {
+                $response->getBody()->write(json_encode(false));
+            }else{
+                $this->storage->removeFavoriteCategory($category);
+                $response->getBody()->write(json_encode(true));
+            }
         });
     });
 

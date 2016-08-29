@@ -3,9 +3,10 @@ namespace RSSReader\Storage\Interfaces;
 
 interface Storage {
 
-    public function AddFavoriteCategory(string $name):array;
-    public function RemoveFavoriteCategory(string $name);
-    public function ClearFavoriteCategory();
+    public function getFavoriteCategories():array;
+    public function addFavoriteCategory(string $name);
+    public function removeFavoriteCategory(string $name);
+    public function clearFavoriteCategory();
 
     public function getNewsSource():string;
     public function setNewsSource(string $value);

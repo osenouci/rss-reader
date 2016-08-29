@@ -112,4 +112,51 @@ class ReutersAdapter implements NewsAdapter {
 
         return is_string(array_rand($this->data));  // Tests a random key and checks if it is a string or not.
     }
+    public function getCategoryNews(string $category) :array {
+
+        $url = false;
+        $articles = [];
+
+        foreach($this->data as $key => $value) {
+            if($key == $category) {
+                $url = $value;
+                break;
+            }
+        }
+
+        try{
+
+            if(empty($url)) {
+                throw new \Exception();
+            }
+
+            $responseAsXML = file_get_contents($url);
+            $responseAsXML = simplexml_load_string($responseAsXML, "SimpleXMLElement", LIBXML_NOCDATA);
+
+            $array = json_decode(json_encode($responseAsXML),TRUE);
+
+            if(empty($array) OR empty($array["channel"]["item"])){
+                throw new \Exception();
+            }
+
+            $news = $array["channel"]["item"];
+
+            foreach($news as $article){
+
+                $articles[] = array(
+                    "title" => !empty($article["title"])?$article["title"]:"",
+                    "detail"=> !empty($article["description"])?$article["description"]:"",
+                    "url"   => !empty($article["link"])?$article["link"]:"",
+                    "img"   => [],
+                    "date"  => !empty($article["pubDate"])?$article["pubDate"]:""
+                );
+            }
+
+
+        }catch(\Exception $e){
+            $articles = [];
+        }
+
+        return $articles;
+    }
 }

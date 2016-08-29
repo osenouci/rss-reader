@@ -15,4 +15,5 @@ interface NewsAdapter {
     public function getHomePageCategory():string;
     public function hasCategories():bool;
     public function setCategoryFormatter(CategoryFormatter $formatter);
+    public function getCategoryNews(string $category):array;
 }

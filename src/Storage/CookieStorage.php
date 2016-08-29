@@ -15,7 +15,7 @@ class CookieStorage implements \RSSReader\Storage\Interfaces\Storage {
         setcookie($key, json_encode($value), time() + (86400 * 7), "/");
     }
     protected function read(string $key) {
-        return !empty($_COOKIE[$key])?json_decode($_COOKIE[$key]):false;
+        return !empty($_COOKIE[$key])?json_decode($_COOKIE[$key], true):false;
     }
     protected function delete(string $key) {
         if(empty($this->read($key))){
@@ -23,18 +23,23 @@ class CookieStorage implements \RSSReader\Storage\Interfaces\Storage {
         }
         $this->write($key, null);
     }
-    public function AddFavoriteCategory(string $name):array {
+    public function getFavoriteCategories():array{
+
+        $result = $this->read($this->FAVORITE_KEY);
+        return !empty($result)?$result:[];
+    }
+    public function addFavoriteCategory(string $name) {
 
         $categories = $this->read($this->FAVORITE_KEY);
-        if(empty($categories)){
-            $categories = [$name];
-        }elseif(!in_array($categories, $name)){
-            $categories[] = $name;
-        }
 
-        $this->write($this->FAVORITE_KEY, $categories);
+        if(empty($categories) OR !is_array($categories)){
+            $categories = [];
+        }
+        $categories[] = $name;
+
+        $this->write($this->FAVORITE_KEY, array_unique($categories));
     }
-    public function RemoveFavoriteCategory(string $name) {
+    public function removeFavoriteCategory(string $name) {
 
         $categories = $this->read($this->FAVORITE_KEY);
         if(empty($categories)){
@@ -50,7 +55,7 @@ class CookieStorage implements \RSSReader\Storage\Interfaces\Storage {
 
         $this->write($this->FAVORITE_KEY, $categories);
     }
-    public function ClearFavoriteCategory() {
+    public function clearFavoriteCategory() {
         $this->delete($this->FAVORITE_KEY);
     }
     public function getNewsSource():string{
