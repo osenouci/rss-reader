@@ -3,7 +3,20 @@ define("APP_DIR", dirname(__FILE__));
 define("ROUTES" , APP_DIR . "/src/Routes");
 
 require_once APP_DIR . "/vendor/autoload.php";
+require_once APP_DIR . "/src/Config/define.php";
+
 use Slim\Views\PhpRenderer;
+
+$f = new RSSReader\NewsSources\Formatters\BasicCategoryFormatter();
+$t = new RSSReader\NewsSources\Adapters\NewsApiAdapter(URL_NEWSAPI_API);
+$t->setCategoryFormatter($f);
+debug($t->getCategories());
+debug($t->hasCategories());
+debug($t->getHomePageCategory());
+exit();
+
+
+
 
 /**
  * ##########################################################################
