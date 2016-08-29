@@ -19,3 +19,4 @@ function debug($value) {
     var_dump($value);
     echo "</pre>";
 }
+
