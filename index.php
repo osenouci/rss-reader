@@ -6,17 +6,7 @@ require_once APP_DIR . "/vendor/autoload.php";
 require_once APP_DIR . "/src/Config/define.php";
 
 use Slim\Views\PhpRenderer;
-
-$f = new RSSReader\NewsSources\Formatters\BasicCategoryFormatter();
-$t = new RSSReader\NewsSources\Adapters\NewsApiAdapter(URL_NEWSAPI_API);
-$t->setCategoryFormatter($f);
-debug($t->getCategories());
-debug($t->hasCategories());
-debug($t->getHomePageCategory());
-exit();
-
-
-
+use RSSReader\NewsSources\NewsAdapterFactory;
 
 /**
  * ##########################################################################
@@ -24,7 +14,8 @@ exit();
  * ##########################################################################
  */
 $container = new \Slim\Container(); // Create the DI container
-$container['renderer'] = new PhpRenderer(APP_DIR . "/public");
+$container['renderer'   ] = new PhpRenderer(APP_DIR . "/public");
+$container['newsService'] = RSSReader\NewsSources\NewsAdapterFactory::getSource(NewsAdapterFactory::REUTERS);
 
 /**
  * ##########################################################################

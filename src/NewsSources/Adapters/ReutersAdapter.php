@@ -4,6 +4,7 @@ namespace RSSReader\NewsSources\Adapters;
 use \RSSReader\NewsSources\Formatters\Interfaces\CategoryFormatter;
 use \RSSReader\NewsSources\Adapters\Interfaces\NewsAdapter;
 
+
 class ReutersAdapter implements NewsAdapter {
 
     /**
@@ -52,14 +53,14 @@ class ReutersAdapter implements NewsAdapter {
      */
     protected function readReutersData()
     {
-        $dom = new DomDocument;
+        $dom = new \DomDocument;
 
         libxml_use_internal_errors(true);   // Don't show any errors related to
         $dom->loadHTMLFile($this->URL);     // Load the HTML
         libxml_use_internal_errors(false);  // Restore the value to the default.
 
         // Create a new XPath object
-        $xpath = new DomXPath($dom);
+        $xpath = new \DomXPath($dom);
 
         // Query all <td> nodes containing specified class name 'xmlLink' and get their respective child link.
         $nodes = $xpath->query("//td[@class='xmlLink']/a");
@@ -84,7 +85,7 @@ class ReutersAdapter implements NewsAdapter {
      */
     public function getCategories():array
     {
-        return $this->data;
+        return array_keys($this->data);
     }
     /**
      * Returns the home page category in array format. It tries to check if TOP NEW is available, if it is then returns
