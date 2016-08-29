@@ -1,0 +1,12 @@
+{
+    "name": "othmane/rss_feed",
+    "description": "RSS feed reader as part of the job application for atHome luxembourg",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Othmane SENOUCI",
+            "email": "osenouci@gmail.com"
+        }
+    ],
+    "require": {}
+}
