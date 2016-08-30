@@ -30,16 +30,22 @@ class NewsApiAdapter implements NewsAdapter {
         $this->data = ["categories" => []];
 
         $this->apiKey = NEWSAPI_API_KEY;
-
         $this->readNewsData();
 
         if(empty($this->data)) {
-            //throw new Exception("Cannot reach reuters' API. Please check your connectivity!");
+            throw new Exception("Cannot reach reuters' API. Please check your connectivity!");
         }
     }
+    /**
+     * Sets a formatter of the type: RSSReader\NewsSources\Formatters\Interfaces
+     * The formatter is used to select a home category
+     */
     public function setCategoryFormatter(CategoryFormatter $formatter){
         $this->formatter = $formatter;
     }
+    /**
+     * Reads the categories from the API and stores them in the NewsApiAdapter::data property
+     */
     protected function readNewsData(){
 
         $result = file_get_contents($this->URL . "v1/sources?language=en");
@@ -60,15 +66,21 @@ class NewsApiAdapter implements NewsAdapter {
         }
     }
     /**
+     * Returns a list of categories and their URL as an associative array.
+     * @example
+     * $rtNews = new NewsApiAdapter();
+     * $result = $rtNews->getCategories();
+     *
      * @return array
      */
     public function getCategories():array
     {
         return array_keys($this->data["categories"]);
     }
-
     /**
-     * @return array
+     * Returns the articles contained in the favorite page and if none has been marked such one, then it returns
+     *  the articles of one of the predefined categories.
+     * @return string
      */
     public function getHomePageCategory(string $additionalCategory = ""):string
     {
@@ -80,8 +92,9 @@ class NewsApiAdapter implements NewsAdapter {
         $this->formatter->setData($default);
         return $this->formatter->getHomeCategory($this->data["categories"]);
     }
-
     /**
+     * Returns a boolean value that indicate if the adapter supports categories or not. If the keys are string then it
+     * does. If the keys are integers than it does not.
      * @return bool
      */
     public function hasCategories():bool
@@ -94,8 +107,11 @@ class NewsApiAdapter implements NewsAdapter {
         // Tests a random key and checks if it is a string or not.
         return is_string($categories[array_rand($categories)]);
     }
-
-
+    /**
+     * Returns the articles contained in a given category.
+     * @param $category
+     * @return array
+     */
     public function getCategoryNews(string $category) :array {
 
         $sources = $articles = [];

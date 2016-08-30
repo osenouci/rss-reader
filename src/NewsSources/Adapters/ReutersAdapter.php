@@ -45,11 +45,15 @@ class ReutersAdapter implements NewsAdapter {
             throw new Exception("Cannot reach reuters' API. Please check your connectivity!");
         }
     }
+    /**
+     * Sets a formatter of the type: RSSReader\NewsSources\Formatters\Interfaces
+     * The formatter is used to select a home category
+     */
     public function setCategoryFormatter(CategoryFormatter $formatter){
         $this->formatter = $formatter;
     }
     /**
-     * Scape the main page of reuters API
+     * Scape the main page of reuters API and store the categories and their links in the ReutersAdapter::data property.
      */
     protected function readReutersData()
     {
@@ -75,12 +79,7 @@ class ReutersAdapter implements NewsAdapter {
      * @example
      * $rtNews = new ReutersAdapter();
      * $result = $rtNews->getCategories();
-     * -----------------------------------
-     * The output of $result will be:
-     * array("Breaking News" => "http://URL_TO_GET THE _BREAKING_NEWS.com",
-     *       "sports" => "http://URL_TO_GET THE _SPORTS.com"
-     * );
-     * -----------------------------------
+     *
      * @return array
      */
     public function getCategories():array
@@ -117,6 +116,11 @@ class ReutersAdapter implements NewsAdapter {
 
         return is_string(array_rand($this->data));  // Tests a random key and checks if it is a string or not.
     }
+    /**
+     * Returns the articles contained in a given category.
+     * @param $category
+     * @return array
+     */
     public function getCategoryNews(string $category) :array {
 
         $url = false;
