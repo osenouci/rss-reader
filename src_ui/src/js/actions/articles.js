@@ -2,7 +2,11 @@ import axios from "axios";
 
 import * as constants from './../constants/reducers';
 import * as urls from './../constants/urls';
-
+/**
+ * @type: ACTION
+ * Redux action used to fetch the articles from the servers.
+ * It gets the articles of either of the favorite page or the home page.
+ */
 export function fetchHomePageArticles() {
     return function(dispatch) {
 
@@ -17,7 +21,11 @@ export function fetchHomePageArticles() {
             })
     }
 }
-
+/**
+ * @type: ACTION
+ * Redux action used to fetch the articles from the servers.
+ * It gets the articles of a given category.
+ */
 export function fetchCategoryArticles(category) {
     return function(dispatch) {
 

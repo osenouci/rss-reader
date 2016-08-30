@@ -1,3 +1,6 @@
+/**
+ * The article component is used to display each of the article in the UI.
+ */
 import React from "react"
 
 export default class ArticleItemComponent extends React.Component {

@@ -22312,6 +22312,10 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
+	/**
+	 * @type: ACTION
+	 * Gets the categories from the server
+	 */
 	function fetchCategories() {
 	    return function (dispatch) {
 	
@@ -22324,6 +22328,10 @@
 	        });
 	    };
 	}
+	/**
+	 * @type: ACTION
+	 * Marks a category as favorite
+	 */
 	function addAsFavorite(category, fx) {
 	
 	    return function (dispatch) {
@@ -22347,6 +22355,10 @@
 	        });
 	    };
 	}
+	/**
+	 * @type: ACTION
+	 * Un-marks a category as favorite
+	 */
 	function removeAsFavorite(category, fx) {
 	
 	    return function (dispatch) {
@@ -23833,6 +23845,11 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
+	/**
+	 * @type: ACTION
+	 * Redux action used to fetch the articles from the servers.
+	 * It gets the articles of either of the favorite page or the home page.
+	 */
 	function fetchHomePageArticles() {
 	    return function (dispatch) {
 	
@@ -23845,7 +23862,11 @@
 	        });
 	    };
 	}
-	
+	/**
+	 * @type: ACTION
+	 * Redux action used to fetch the articles from the servers.
+	 * It gets the articles of a given category.
+	 */
 	function fetchCategoryArticles(category) {
 	    return function (dispatch) {
 	
@@ -23883,7 +23904,10 @@
 	
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * The article component is used to display each of the article in the UI.
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+	
 	
 	var ArticleItemComponent = function (_React$Component) {
 	    _inherits(ArticleItemComponent, _React$Component);
@@ -24157,6 +24181,10 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
+	/**
+	 * @type: ACTION
+	 * Gets the list the news sources and in addition the name of the active one.
+	 */
 	function fetchNewsSources() {
 	    return function (dispatch) {
 	        _axios2.default.get(urls.URL_GET_NEWS_SOURCES).then(function (response) {
@@ -24166,6 +24194,10 @@
 	        });
 	    };
 	}
+	/**
+	 * @type: ACTION
+	 * Sets a given news source as the active one.
+	 */
 	function setNewsSource(newsSource, fx) {
 	    return function (dispatch) {
 	        _axios2.default.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded';

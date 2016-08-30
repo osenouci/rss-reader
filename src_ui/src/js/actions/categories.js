@@ -3,6 +3,10 @@ import axios from "axios";
 import * as constants from './../constants/reducers';
 import * as urls from './../constants/urls';
 
+/**
+ * @type: ACTION
+ * Gets the categories from the server
+ */
 export function fetchCategories() {
     return function(dispatch) {
 
@@ -17,6 +21,10 @@ export function fetchCategories() {
             })
     }
 }
+/**
+ * @type: ACTION
+ * Marks a category as favorite
+ */
 export function addAsFavorite(category, fx) {
 
     return function(dispatch) {
@@ -43,6 +51,10 @@ export function addAsFavorite(category, fx) {
     }
 
 }
+/**
+ * @type: ACTION
+ * Un-marks a category as favorite
+ */
 export function removeAsFavorite(category, fx) {
 
     return function(dispatch) {
