@@ -19,7 +19,8 @@ export default function reducer(state=initialState, action) {
             return {
                 ...state,
                 fetching: false,
-                tweets: action.value,
+                sources: action.value.sources,
+                activeSource: action.value.active,
             }
         }
     }

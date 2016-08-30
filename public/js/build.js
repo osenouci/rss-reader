@@ -22116,7 +22116,8 @@
 	            {
 	                return _extends({}, state, {
 	                    fetching: false,
-	                    tweets: action.value
+	                    sources: action.value.sources,
+	                    activeSource: action.value.active
 	                });
 	            }
 	    }

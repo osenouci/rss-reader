@@ -16,6 +16,7 @@ class NewsAdapterFactory {
     public function getSource (string $type, \RSSReader\Storage\Interfaces\Storage $storage) : NewsAdapter
     {
         if(!empty($storage->getNewsSource())){
+
             $type = $storage->getNewsSource();
         }
 
@@ -45,13 +46,14 @@ class NewsAdapterFactory {
         }
     }
     public function listSources() {
-        return [self::REUTERS => "Reuters", self::NEWS_API => "NewsAPI"];
+        return [["key" => self::REUTERS, "name" => "Reuters"], ["key" => self::NEWS_API, "name" => "NewsAPI"]];
     }
     public function isValidSource($source):bool {
         $sources = $this->listSources();
+
         foreach($sources as $key => $value) {
 
-            if(strtolower($source) == strtolower($key)) {
+            if(strtolower($source) == strtolower($sources[$key]["key"])) {
                 return true;
             }
         }
