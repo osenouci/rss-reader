@@ -161,7 +161,12 @@ body #page-content-wrapper .container-fluid footer {
 }
 .news-article {
     overflow:hidden;
+
+}
+.news-article .image{
+    overflow: hidden;
     height:200px;
+    background-color: #FAFAFA;
 }
 .news-article h4, .article-description{
     overflow: hidden;

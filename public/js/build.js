@@ -23565,14 +23565,6 @@
 	
 	var _articles = __webpack_require__(217);
 	
-	var _articlesMain = __webpack_require__(218);
-	
-	var _articlesMain2 = _interopRequireDefault(_articlesMain);
-	
-	var _articleItem = __webpack_require__(219);
-	
-	var _articleItem2 = _interopRequireDefault(_articleItem);
-	
 	var _articlesList = __webpack_require__(220);
 	
 	var _articlesList2 = _interopRequireDefault(_articlesList);
@@ -23614,16 +23606,13 @@
 	
 	            if (this.props.articles.length) {
 	
-	                var mainArticle = _react2.default.createElement(_articlesMain2.default, this.props.articles[0]);
-	
 	                if (this.props.articles.length > 1) {
-	                    articles = _react2.default.createElement(_articlesList2.default, { articles: this.props.articles.slice(1) });
+	                    articles = _react2.default.createElement(_articlesList2.default, { articles: this.props.articles });
 	                }
 	            }
 	            return _react2.default.createElement(
 	                "div",
 	                null,
-	                mainArticle,
 	                articles
 	            );
 	        }
@@ -23671,94 +23660,7 @@
 	}
 
 /***/ },
-/* 218 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.default = undefined;
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var ArticleMainComponent = function (_React$Component) {
-	    _inherits(ArticleMainComponent, _React$Component);
-	
-	    function ArticleMainComponent() {
-	        _classCallCheck(this, ArticleMainComponent);
-	
-	        return _possibleConstructorReturn(this, (ArticleMainComponent.__proto__ || Object.getPrototypeOf(ArticleMainComponent)).apply(this, arguments));
-	    }
-	
-	    _createClass(ArticleMainComponent, [{
-	        key: "render",
-	        value: function render() {
-	            var _props = this.props;
-	            var date = _props.date;
-	            var detail = _props.detail;
-	            var img = _props.img;
-	            var title = _props.title;
-	            var url = _props.url;
-	
-	            var articleImage = "";
-	
-	            if (img.length) {
-	                articleImage = _react2.default.createElement("div", { dangerouslySetInnerHTML: { __html: img[0] } });
-	            }
-	
-	            return _react2.default.createElement(
-	                "div",
-	                { className: "jumbotron" },
-	                _react2.default.createElement(
-	                    "h2",
-	                    null,
-	                    title
-	                ),
-	                _react2.default.createElement(
-	                    "div",
-	                    null,
-	                    articleImage
-	                ),
-	                _react2.default.createElement("div", { dangerouslySetInnerHTML: { __html: detail } }),
-	                _react2.default.createElement(
-	                    "a",
-	                    { type: "button", className: "btn btn-primary", href: url, target: "_blank" },
-	                    "More"
-	                ),
-	                _react2.default.createElement(
-	                    "div",
-	                    { className: "main-article-date" },
-	                    _react2.default.createElement(
-	                        "span",
-	                        null,
-	                        "Date: ",
-	                        date
-	                    )
-	                )
-	            );
-	        }
-	    }]);
-	
-	    return ArticleMainComponent;
-	}(_react2.default.Component);
-	
-	exports.default = ArticleMainComponent;
-
-/***/ },
+/* 218 */,
 /* 219 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -23818,7 +23720,7 @@
 	                ),
 	                _react2.default.createElement(
 	                    "div",
-	                    null,
+	                    { className: "image" },
 	                    articleImage
 	                ),
 	                _react2.default.createElement("div", { className: "article-description truncate", dangerouslySetInnerHTML: { __html: detail } }),

@@ -132,7 +132,7 @@ class NewsApiAdapter implements NewsAdapter {
                     "title" => !empty($article["title"])?$article["title"]:"",
                     "detail"=> !empty($article["description"])?$article["description"]:"",
                     "url"   => !empty($article["url"])?$article["url"]:"",
-                    "img"   => [!empty($article["urlToImage"])?$article["urlToImage"]:""],
+                    "img"   => [!empty($article["urlToImage"])?"<img src=\"{$article["urlToImage"]}\" />":""],
                     "date"  => !empty($article["publishedAt"])?$article["publishedAt"]:""
                 );
             }

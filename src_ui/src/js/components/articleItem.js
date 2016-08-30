@@ -13,7 +13,7 @@ export default class ArticleItemComponent extends React.Component {
 
         return <div class="col-xs-6 col-lg-4 news-article">
             <h4 class="truncate">{title}</h4>
-                <div>{articleImage}</div>
+                <div class="image">{articleImage}</div>
                 <div class="article-description truncate" dangerouslySetInnerHTML={{__html:detail}}/>
                 <a type="button" class="btn btn-primary" href={url} target="_blank">More</a>
                 <div class="main-article-date"><span>Date: {date}</span></div>
