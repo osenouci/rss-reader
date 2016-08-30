@@ -4,7 +4,9 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 $app->group('/api', function () use ($app) {
 
-    // Get the list of categories
+    /***
+     * Returns the list of categories of a given news adapter.
+     */
     $this->get('/categories', function ($request, $response, $args){
 
         $response->withAddedHeader('Content-Type','application/json');
@@ -22,6 +24,10 @@ $app->group('/api', function () use ($app) {
     // Get the articles
     $this->group('/articles', function ()  use ($app) {
 
+        /***
+         * Gets the articles of the favorite page if available, if not available then it returns a category defined by
+         * formatter. see RSSReader\NewsSources\Formatters\Interfaces\CategoryFormatter
+         */
         $this->get('/category', function ($request, $response, $args)  use ($app) {
 
             $additionalCategory = $this->storage->getFavoriteCategories();
@@ -33,6 +39,9 @@ $app->group('/api', function () use ($app) {
             $response->withAddedHeader('Content-Type','application/json');
             $response->getBody()->write(json_encode($result));
         });
+        /***
+         * Gets the articles of a given category defined by {category}
+         */
         $this->get('/category/{category}', function ($request, $response, $args) {
 
             $result = [];
@@ -44,14 +53,18 @@ $app->group('/api', function () use ($app) {
             $response->getBody()->write(json_encode($result));
         })->setName('category-news-getter');
     });
-
-    // Update the sources (List and switch between news sources)
+    /**
+     * Gets the list of news adapters and the active one.
+     */
     $this->get("/sources", function($request, $response, $args){
         $data = (new RSSReader\NewsSources\NewsAdapterFactory())->listSources();
 
         $response->withAddedHeader('Content-Type','application/json');
         $response->getBody()->write(json_encode(array("sources" => $data, "active" => $this->storage->getActiveNewsSource())));
     });
+    /**
+     * Used to switch between news adapters
+     */
     $this->put("/sources", function($request, $response, $args){
 
         $response->withAddedHeader('Content-Type','application/json');
@@ -75,14 +88,17 @@ $app->group('/api', function () use ($app) {
 
     // Manage the favorites
     $this->group('/favorites', function () {
-
-        // Get the list of favorite categories
+        /**
+         * Get the list of favorite categories (NOT USED!)
+         */
         $this->get('/categories', function ($request, $response, $args) {
 
             $response->withAddedHeader('Content-Type','application/json');
             $response->getBody()->write(json_encode(array_values($this->storage->getFavoriteCategories())));
         });
-
+        /**
+         * Used to select a category as the favorite one.
+         */
         $this->post('/category', function ($request, $response, $args) {
 
             $response->withAddedHeader('Content-Type','application/json');
@@ -96,7 +112,9 @@ $app->group('/api', function () use ($app) {
                 $response->getBody()->write(json_encode(true));
             }
         });
-
+        /**
+         * Used to un-mark a category as the favorite one.
+         */
         $this->delete('/category/{category}', function ($request, $response, $args) {
 
             $response->withAddedHeader('Content-Type','application/json');

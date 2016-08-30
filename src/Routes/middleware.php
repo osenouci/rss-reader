@@ -2,10 +2,15 @@
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
+/**
+ * Used to add CROSS to the application
+ */
 $app->options('/{routes:.+}', function ($request, $response, $args) {
     return $response;
 });
-
+/**
+ * Used to add CROSS to the application
+ */
 $app->add(function ($req, $res, $next) {
     $response = $next($req, $res);
     return $response
@@ -14,6 +19,10 @@ $app->add(function ($req, $res, $next) {
         ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
 });
 
+/**
+ * When the API is used in away that it is not design, for example calling routes that don't exist, then we display
+ * false and return 404 header.
+ */
 $app->add(function (Request $request, Response $response, $next)
 {
     $response = $next($request, $response);

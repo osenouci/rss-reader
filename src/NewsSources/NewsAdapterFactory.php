@@ -6,6 +6,10 @@ use RSSReader\NewsSources\Adapters\NewsApiAdapter;
 use RSSReader\NewsSources\Adapters\ReutersAdapter;
 use RSSReader\NewsSources\Formatters\BasicCategoryFormatter;
 
+/**
+ * This factory is used to create instances of the news adapters.
+ * @package RSSReader\NewsSources
+ */
 class NewsAdapterFactory {
 
     const REUTERS  = "REUTERS_ADAPTER";
@@ -13,6 +17,12 @@ class NewsAdapterFactory {
 
     protected $activeNewSource = "";
 
+    /**
+     * Creates instances of the different news adapters depending on the type passed.
+     * @param string $type
+     * @param \RSSReader\Storage\Interfaces\Storage $storage
+     * @return NewsAdapter
+     */
     public function getSource (string $type, \RSSReader\Storage\Interfaces\Storage $storage) : NewsAdapter
     {
         if(!empty($storage->getNewsSource())){
@@ -45,6 +55,10 @@ class NewsAdapterFactory {
             return $adapter;
         }
     }
+    /**
+     * Returns a list of supported news adapters.
+     * @return array
+     */
     public function listSources() {
         return [["key" => self::REUTERS, "name" => "Reuters"], ["key" => self::NEWS_API, "name" => "NewsAPI"]];
     }
@@ -60,6 +74,10 @@ class NewsAdapterFactory {
 
         return false;
     }
+    /**
+     * Returns the key of the active news adapter.
+     * @return array
+     */
     public function getSelectedNewsSource() {
         return $this->activeNewSource;
     }

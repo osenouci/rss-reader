@@ -24,11 +24,19 @@ class CookieStorage implements \RSSReader\Storage\Interfaces\Storage {
         }
         $this->write($key, null);
     }
+    /**
+     * returns a list of favorite categories. (NOT USED)
+     * @return array
+     */
     public function getFavoriteCategories():array{
 
         $result = $this->read($this->FAVORITE_KEY);
         return !empty($result)?$result:[];
     }
+    /**
+     * Marks a category as the favorite. Only one can be marked at the time.
+     * @param string $name
+     */
     public function addFavoriteCategory(string $name) {
 
         $categories = $this->read($this->FAVORITE_KEY);
@@ -40,6 +48,10 @@ class CookieStorage implements \RSSReader\Storage\Interfaces\Storage {
 
         $this->write($this->FAVORITE_KEY, array_unique($categories));
     }
+    /**
+     * Un-marks a category from being the favorite one.
+     * @param string $name
+     */
     public function removeFavoriteCategory(string $name) {
 
         $categories = $this->read($this->FAVORITE_KEY);
@@ -56,20 +68,39 @@ class CookieStorage implements \RSSReader\Storage\Interfaces\Storage {
 
         $this->write($this->FAVORITE_KEY, $categories);
     }
+    /**
+     * Deletes the favorite categories' list.
+     */
     public function clearFavoriteCategory() {
         $this->delete($this->FAVORITE_KEY);
     }
+    /**
+     * Gets the name of the news adapater being used.
+     * @return string
+     */
     public function getNewsSource():string{
 
         $source = $this->read($this->NEWS_SOURCE_KEY);
         return (!empty($source))?$source:"";
     }
+    /**
+     * Sets the name of the news adapater being used.
+     * @return string
+     */
     public function setNewsSource(string $value) {
         $this->write($this->NEWS_SOURCE_KEY, $value);
     }
+    /**
+     * Same as setNewsSource(). Clean up needed
+     * @return string
+     */
     public function setActiveNewsSource(string $value) {
         $this->write($this->NEWS_SOURCE_NAME, $value);
     }
+    /**
+     * Same as setNewsSource(). Clean up needed
+     * @return string
+     */
     public function getActiveNewsSource():string {
         $source = $this->read($this->NEWS_SOURCE_NAME);
         return !empty($source)?$source:"";
