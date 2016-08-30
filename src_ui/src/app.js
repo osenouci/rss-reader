@@ -1,13 +1,16 @@
-/**
- * Created by Othmane on 8/30/2016.
- */
 import React from "react"
 import ReactDOM from "react-dom"
 import { Provider } from "react-redux"
+
 import store from "./js/store/store"
 
-const app = document.getElementById('wrapper');
+import CategoryComponent from "./js/components/categories"
+
+
+const app = document.getElementById('test-container');
+
+console.log(CategoryComponent);
 
 ReactDOM.render(<Provider store={store}>
-    <h1>Hello</h1>
+    <CategoryComponent />
 </Provider>, app);

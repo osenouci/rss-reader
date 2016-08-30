@@ -4,7 +4,7 @@ var path = require('path');
 
 module.exports = {
   context: path.join(__dirname, "src"),
-  devtool: debug ? "inline-sourcemap" : null,
+  devtool: "sourcemap",
   entry: "./app.js",
   module: {
     loaders: [
@@ -27,6 +27,7 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, "../public/js/"),
+    publicPath: path.join(__dirname, "../public/js/"),
     filename: "build.js"
   },
   plugins: debug ? [] : [
