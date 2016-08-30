@@ -35,12 +35,14 @@ class SessionStorage implements \RSSReader\Storage\Interfaces\Storage {
     }
     public function addFavoriteCategory(string $name) {
 
+        /*
         $categories = $this->read($this->FAVORITE_KEY);
 
         if(empty($categories) OR !is_array($categories)){
             $categories = [];
         }
-        $categories[] = $name;
+        */
+        $categories = [strtolower($name)];
 
         $this->write($this->FAVORITE_KEY, array_unique($categories));
     }

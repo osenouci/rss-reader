@@ -70,10 +70,14 @@ class NewsApiAdapter implements NewsAdapter {
     /**
      * @return array
      */
-    public function getHomePageCategory():string
+    public function getHomePageCategory(string $additionalCategory = ""):string
     {
-        $this->formatter->setData(["general", "technology", "sport"]);
+        $default = ["general", "technology", "sport"];
+        if(!empty($additionalCategory)) {
+            $default = array_merge([$additionalCategory], $default);
+        }
 
+        $this->formatter->setData($default);
         return $this->formatter->getHomeCategory($this->data["categories"]);
     }
 

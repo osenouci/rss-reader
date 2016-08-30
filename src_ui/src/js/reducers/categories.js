@@ -28,6 +28,45 @@ export default function reducer(state=initialState, action) {
                 categories: action.value,
             }
         }
+        case constants.FAVORITES_REMOVE:{
+            return {
+                ...state,
+                fetching: true
+            }
+        }
+        case constants.FAVORITES_ADD: {
+            return {
+                ...state,
+                fetching: true
+            }
+        }
+        case constants.FAVORITES_REMOVE_REJECTED:{
+            return {
+                ...state,
+                fetching: false,
+                error: action.value
+            }
+        }
+        case constants.FAVORITES_ADD_REJECTED: {
+            return {
+                ...state,
+                fetching: false,
+                error: action.value
+            }
+        }
+        case constants.FAVORITES_REMOVE_FULFILLED:{
+            return {
+                ...state,
+                fetching: false
+            }
+        }
+        case constants.FAVORITES_ADD_FULFILLED: {
+            return {
+                ...state,
+                fetching: false
+            }
+        }
+
     }
 
     return state;

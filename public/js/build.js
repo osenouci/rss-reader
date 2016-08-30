@@ -21968,6 +21968,14 @@
 	var FAVORITES_FETCH = exports.FAVORITES_FETCH = "SOURCES_FETCH";
 	var FAVORITES_FETCH_REJECTED = exports.FAVORITES_FETCH_REJECTED = "SOURCES_FETCH_REJECTED";
 	var FAVORITES_FETCH_FULFILLED = exports.FAVORITES_FETCH_FULFILLED = "SOURCES_FETCH_FULFILLED";
+	
+	var FAVORITES_ADD = exports.FAVORITES_ADD = "FAVORITES_ADD";
+	var FAVORITES_ADD_REJECTED = exports.FAVORITES_ADD_REJECTED = "FAVORITES_ADD_REJECTED";
+	var FAVORITES_ADD_FULFILLED = exports.FAVORITES_ADD_FULFILLED = "FAVORITES_ADD_FULFILLED";
+	
+	var FAVORITES_REMOVE = exports.FAVORITES_REMOVE = "SOURCES_REMOVE";
+	var FAVORITES_REMOVE_REJECTED = exports.FAVORITES_REMOVE_REJECTED = "SOURCES_REMOVE_REJECTED";
+	var FAVORITES_REMOVE_FULFILLED = exports.FAVORITES_REMOVE_FULFILLED = "SOURCES_REMOVE_FULFILLED";
 
 /***/ },
 /* 190 */
@@ -22020,6 +22028,45 @@
 	                    categories: action.value
 	                });
 	            }
+	        case constants.FAVORITES_REMOVE:
+	            {
+	                return _extends({}, state, {
+	                    fetching: true
+	                });
+	            }
+	        case constants.FAVORITES_ADD:
+	            {
+	                return _extends({}, state, {
+	                    fetching: true
+	                });
+	            }
+	        case constants.FAVORITES_REMOVE_REJECTED:
+	            {
+	                return _extends({}, state, {
+	                    fetching: false,
+	                    error: action.value
+	                });
+	            }
+	        case constants.FAVORITES_ADD_REJECTED:
+	            {
+	                return _extends({}, state, {
+	                    fetching: false,
+	                    error: action.value
+	                });
+	            }
+	        case constants.FAVORITES_REMOVE_FULFILLED:
+	            {
+	                return _extends({}, state, {
+	                    fetching: false
+	                });
+	            }
+	        case constants.FAVORITES_ADD_FULFILLED:
+	            {
+	                return _extends({}, state, {
+	                    fetching: false
+	                });
+	            }
+	
 	    }
 	
 	    return state;
@@ -22246,6 +22293,8 @@
 	    value: true
 	});
 	exports.fetchCategories = fetchCategories;
+	exports.addAsFavorite = addAsFavorite;
+	exports.removeAsFavorite = removeAsFavorite;
 	
 	var _axios = __webpack_require__(195);
 	
@@ -22265,10 +22314,51 @@
 	
 	function fetchCategories() {
 	    return function (dispatch) {
+	
+	        console.log("Reloading the categories");
+	        dispatch({ type: constants.CATEGORIES_FETCH });
 	        _axios2.default.get(urls.URL_GET_CATEGORIES).then(function (response) {
 	            dispatch({ type: constants.CATEGORIES_FETCH_FULFILLED, value: response.data });
 	        }).catch(function (err) {
 	            dispatch({ type: constants.CATEGORIES_FETCH_REJECTED, value: err });
+	        });
+	    };
+	}
+	function addAsFavorite(category, fx) {
+	
+	    return function (dispatch) {
+	
+	        dispatch({ type: constants.FAVORITES_ADD });
+	
+	        _axios2.default.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded';
+	        _axios2.default.post(urls.URL_ADD_FAVORITE, { category: category }).then(function (response) {
+	
+	            if (response.data == true) {
+	                console.log("function 2 call");
+	                console.log(fx);
+	                fx();
+	                dispatch({ type: constants.FAVORITES_ADD_FULFILLED, value: response.data });
+	                return;
+	            }
+	
+	            throw -1;
+	        }).catch(function (err) {
+	            dispatch({ type: constants.FAVORITES_ADD_REJECTED, value: err });
+	        });
+	    };
+	}
+	function removeAsFavorite(category, fx) {
+	
+	    return function (dispatch) {
+	
+	        dispatch({ type: constants.FAVORITES_REMOVE });
+	
+	        _axios2.default.delete(urls.URL_REMOVE_FAVORITE + "/" + category).then(function (response) {
+	            dispatch({ type: constants.FAVORITES_REMOVE_FULFILLED });
+	            fx();
+	        }).catch(function (err) {
+	            dispatch({ type: constants.FAVORITES_REMOVE_REJECTED, value: err });
+	            fx();
 	        });
 	    };
 	}
@@ -23501,6 +23591,8 @@
 	//  Category URLs
 	// ################################################################
 	var URL_GET_CATEGORIES = exports.URL_GET_CATEGORIES = API_URL + "/categories";
+	var URL_ADD_FAVORITE = exports.URL_ADD_FAVORITE = API_URL + "/favorites/category";
+	var URL_REMOVE_FAVORITE = exports.URL_REMOVE_FAVORITE = API_URL + "/favorites/category";
 	
 	//  Article URLs
 	// ################################################################
@@ -23534,6 +23626,8 @@
 	
 	var _articles = __webpack_require__(217);
 	
+	var _categories = __webpack_require__(194);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -23542,10 +23636,10 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	// Added in order to give us access to the dispatch function
-	
 	var CategoryEntryComponent = (_dec = (0, _reactRedux.connect)(function (store) {
-	    return {};
+	    return {
+	        fetching: store.categories.fetching
+	    };
 	}), _dec(_class = function (_React$Component) {
 	    _inherits(CategoryEntryComponent, _React$Component);
 	
@@ -23562,12 +23656,38 @@
 	            this.props.dispatch((0, _articles.fetchCategoryArticles)(this.props.name));
 	        }
 	    }, {
-	        key: "render",
-	        value: function render() {
+	        key: "markAsFavoriteCategory",
+	        value: function markAsFavoriteCategory() {
 	            var _props = this.props;
-	            var key = _props.key;
 	            var favorite = _props.favorite;
 	            var name = _props.name;
+	            var fetching = _props.fetching;
+	
+	
+	            if (fetching) {
+	                // Cannot select a favorite while fetching data
+	                return;
+	            }
+	
+	            if (favorite) {
+	                // Remove as favorite
+	                this.props.dispatch((0, _categories.removeAsFavorite)(name, function () {
+	                    this.props.dispatch((0, _categories.fetchCategories)());
+	                }.bind(this)));
+	            } else {
+	                // Mark as favorite
+	                this.props.dispatch((0, _categories.addAsFavorite)(name, function () {
+	                    this.props.dispatch((0, _categories.fetchCategories)());
+	                }.bind(this)));
+	            }
+	        }
+	    }, {
+	        key: "render",
+	        value: function render() {
+	            var _props2 = this.props;
+	            var key = _props2.key;
+	            var favorite = _props2.favorite;
+	            var name = _props2.name;
 	
 	            var itemClass = favorite ? "fav-icon-pressed" : "fav-icon";
 	            var itemIcon = favorite ? "glyphicon-star" : "glyphicon-star-empty";
@@ -23577,7 +23697,7 @@
 	                { key: key },
 	                _react2.default.createElement(
 	                    "a",
-	                    { href: "#", className: itemClass },
+	                    { href: "#", className: itemClass, onclick: "return false", onClick: this.markAsFavoriteCategory.bind(this) },
 	                    _react2.default.createElement("span", { className: "glyphicon " + itemIcon, "aria-hidden": "true" })
 	                ),
 	                _react2.default.createElement(

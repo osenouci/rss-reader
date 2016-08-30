@@ -13,7 +13,7 @@ $app->group('/api', function () use ($app) {
 
         $result = [];
         foreach($categories as $category) {
-            $result[] = ["name" => ucfirst($category), "favorite" => in_array($category, $favorites)];
+            $result[] = ["name" => ucfirst($category), "favorite" => in_array(strtolower($category), $favorites)];
         }
 
         $response->getBody()->write(json_encode($result));
@@ -24,7 +24,10 @@ $app->group('/api', function () use ($app) {
 
         $this->get('/category', function ($request, $response, $args)  use ($app) {
 
-            $homeCategory = $this->newsService->getHomePageCategory();
+            $additionalCategory = $this->storage->getFavoriteCategories();
+            $additionalCategory = !empty($additionalCategory[0])?$additionalCategory[0]:"";
+
+            $homeCategory = $this->newsService->getHomePageCategory($additionalCategory);
 
             $result = $this->newsService->getCategoryNews($homeCategory);
             $response->withAddedHeader('Content-Type','application/json');
@@ -79,7 +82,7 @@ $app->group('/api', function () use ($app) {
             $response->withAddedHeader('Content-Type','application/json');
             $response->getBody()->write(json_encode(array_values($this->storage->getFavoriteCategories())));
         });
-        // Update book with ID
+
         $this->post('/category', function ($request, $response, $args) {
 
             $response->withAddedHeader('Content-Type','application/json');
@@ -89,20 +92,21 @@ $app->group('/api', function () use ($app) {
                 $response->getBody()->write(json_encode(false));
             }else{
 
-                $this->storage->addFavoriteCategory($category);
+                $this->storage->addFavoriteCategory(strtolower($category));
                 $response->getBody()->write(json_encode(true));
             }
         });
-        // Delete book with ID
-        $this->delete('/category', function ($request, $response, $args) {
+
+        $this->delete('/category/{category}', function ($request, $response, $args) {
 
             $response->withAddedHeader('Content-Type','application/json');
-            $category = (string) $request->getParam("category");
+            $category = (string) !empty($args["category"])?$args["category"]:"";
 
             if(empty($category)) {
                 $response->getBody()->write(json_encode(false));
             }else{
-                $this->storage->removeFavoriteCategory($category);
+
+                $this->storage->removeFavoriteCategory(strtolower($category));
                 $response->getBody()->write(json_encode(true));
             }
         });

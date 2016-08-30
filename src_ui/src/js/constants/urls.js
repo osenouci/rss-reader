@@ -4,7 +4,9 @@ export const API_URL = "http://localhost/rss_feed/rss-reader/api";
 
 //  Category URLs
 // ################################################################
-export const URL_GET_CATEGORIES = API_URL + "/categories";
+export const URL_GET_CATEGORIES  = API_URL + "/categories";
+export const URL_ADD_FAVORITE    = API_URL + "/favorites/category";
+export const URL_REMOVE_FAVORITE = API_URL + "/favorites/category";
 
 //  Article URLs
 // ################################################################

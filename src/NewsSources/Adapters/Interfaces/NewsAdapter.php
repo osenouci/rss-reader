@@ -12,7 +12,7 @@ use \RSSReader\NewsSources\Formatters\Interfaces\CategoryFormatter;
 interface NewsAdapter {
 
     public function getCategories():array;
-    public function getHomePageCategory():string;
+    public function getHomePageCategory(string $additionalCategory = ""):string;
     public function hasCategories():bool;
     public function setCategoryFormatter(CategoryFormatter $formatter);
     public function getCategoryNews(string $category):array;

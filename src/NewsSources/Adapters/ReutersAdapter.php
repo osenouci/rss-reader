@@ -94,9 +94,14 @@ class ReutersAdapter implements NewsAdapter {
      *
      * @return array
      */
-    public function getHomePageCategory():string
+    public function getHomePageCategory(string $additionalCategory = ""):string
     {
-        $this->formatter->setData(["Top News", "World News"]);
+        $default = ["Top News", "World News"];
+        if(!empty($additionalCategory)) {
+            $default = array_merge([$additionalCategory], $default);
+        }
+
+        $this->formatter->setData($default);
         return $this->formatter->getHomeCategory($this->data);
     }
     /**
