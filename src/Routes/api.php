@@ -44,10 +44,10 @@ $app->group('/api', function () use ($app) {
 
     // Update the sources (List and switch between news sources)
     $this->get("/sources", function($request, $response, $args){
-        $data = RSSReader\NewsSources\NewsAdapterFactory::listSources();
+        $data = (new RSSReader\NewsSources\NewsAdapterFactory())->listSources();
 
         $response->withAddedHeader('Content-Type','application/json');
-        $response->getBody()->write(json_encode($data));
+        $response->getBody()->write(json_encode(array("sources" => $data, "active" => $this->storage->getActiveNewsSource())));
     });
     $this->put("/sources", function($request, $response, $args){
 

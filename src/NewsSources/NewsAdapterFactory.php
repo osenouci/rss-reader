@@ -11,19 +11,26 @@ class NewsAdapterFactory {
     const REUTERS  = "REUTERS_ADAPTER";
     const NEWS_API = "NEWS_API_ADAPTER";
 
-    public static function getSource (string $type, \RSSReader\Storage\Interfaces\Storage $storage) : NewsAdapter
+    protected $activeNewSource = "";
+
+    public function getSource (string $type, \RSSReader\Storage\Interfaces\Storage $storage) : NewsAdapter
     {
         if(!empty($storage->getNewsSource())){
             $type = $storage->getNewsSource();
         }
+
+        if(!$this->isValidSource($type)){
+            throw new Exception("Undefined type: {$type}");
+        }
+        $this->activeNewSource = $type;
 
         if($type == self::NEWS_API) {
 
             $formatter = new BasicCategoryFormatter();
             $adapter = new NewsApiAdapter(URL_NEWSAPI_API);
             $adapter->setCategoryFormatter($formatter);
+            $storage->setNewsSource($type);
 
-            $storage->setNewsSource(self::NEWS_API);
             return $adapter;
         }
 
@@ -32,19 +39,16 @@ class NewsAdapterFactory {
             $formatter = new BasicCategoryFormatter();
             $adapter = new ReutersAdapter(URL_REUTERS_API, REUTERS_XML_FORMAT_PARAMETER);
             $adapter->setCategoryFormatter($formatter);
-
-            $storage->setNewsSource(self::REUTERS);
+            $storage->setNewsSource($type);
 
             return $adapter;
         }
-
-        throw new Exception("Undefined type: {$type}");
     }
-    public static function listSources() {
+    public function listSources() {
         return [self::REUTERS => "Reuters", self::NEWS_API => "NewsAPI"];
     }
-    public static function isValidSource($source):bool {
-        $sources = self::listSources();
+    public function isValidSource($source):bool {
+        $sources = $this->listSources();
         foreach($sources as $key => $value) {
 
             if(strtolower($source) == strtolower($key)) {
@@ -53,5 +57,8 @@ class NewsAdapterFactory {
         }
 
         return false;
+    }
+    public function getSelectedNewsSource() {
+        return $this->activeNewSource;
     }
 }

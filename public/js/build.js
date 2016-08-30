@@ -23471,6 +23471,10 @@
 	//  Article URLs
 	// ################################################################
 	var URL_GET_HOMEPAGE_ARTICLES = exports.URL_GET_HOMEPAGE_ARTICLES = API_URL + "/api/articles/category";
+	
+	//  News sources URLs
+	// ################################################################
+	var URL_GET_NEWS_SOURCES = exports.URL_GET_NEWS_SOURCES = API_URL + "/api/articles/category";
 
 /***/ },
 /* 215 */

@@ -10,6 +10,10 @@ export const URL_GET_CATEGORIES = API_URL + "/api/categories";
 // ################################################################
 export const URL_GET_HOMEPAGE_ARTICLES = API_URL + "/api/articles/category";
 
+//  News sources URLs
+// ################################################################
+export const URL_GET_NEWS_SOURCES = API_URL + "/api/articles/category";
+
 
 
 

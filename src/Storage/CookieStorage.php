@@ -4,8 +4,9 @@ namespace RSSReader\Storage;
 class CookieStorage implements \RSSReader\Storage\Interfaces\Storage {
 
     protected $cookie;
-    protected $FAVORITE_KEY    = "cookieStorage_favorites";
-    protected $NEWS_SOURCE_KEY = "cookieStorage_NEWS_SOURCE";
+    protected $FAVORITE_KEY     = "cookieStorage_favorites";
+    protected $NEWS_SOURCE_KEY  = "cookieStorage_NEWS_SOURCE";
+    protected $NEWS_SOURCE_NAME = "cookieStorage_NEWS_SOURCE_NAME";
 
     public function setPrefix(string $prefix = "")
     {
@@ -65,5 +66,12 @@ class CookieStorage implements \RSSReader\Storage\Interfaces\Storage {
     }
     public function setNewsSource(string $value) {
         $this->write($this->NEWS_SOURCE_KEY, $value);
+    }
+    public function setActiveNewsSource(string $value) {
+        $this->write($this->NEWS_SOURCE_NAME, $value);
+    }
+    public function getActiveNewsSource():string {
+        $source = $this->read($this->NEWS_SOURCE_NAME);
+        return !empty($source)?$source:"";
     }
 }

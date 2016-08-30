@@ -10,4 +10,7 @@ interface Storage {
 
     public function getNewsSource():string;
     public function setNewsSource(string $value);
+
+    public function setActiveNewsSource(string $value);
+    public function getActiveNewsSource():string;
 }
