@@ -7,7 +7,7 @@ var initialState = {
     error       : null,
 };
 export default function reducer(state=initialState, action) {
-    console.log(action.value);
+
     switch (action.type) {
         case constants.SOURCES_FETCH: {
             return {...state, fetching: true}

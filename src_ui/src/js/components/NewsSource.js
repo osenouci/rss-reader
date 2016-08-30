@@ -5,6 +5,9 @@ import React from "react"
 import { connect } from "react-redux"
 
 import { fetchNewsSources, setNewsSource } from "./../actions/newsSources"
+import { fetchCategories } from "./../actions/categories"
+import { fetchHomePageArticles } from "./../actions/articles"
+
 
 @connect((store) => {
     return {
@@ -20,7 +23,10 @@ export default class NewsSourceComponent extends React.Component {
         this.props.dispatch(fetchNewsSources());
     }
     changeSource(source) {
-        this.props.dispatch(setNewsSource(source));
+        this.props.dispatch(setNewsSource(source, () => {
+            this.props.dispatch(fetchCategories());
+            this.props.dispatch(fetchHomePageArticles());
+        }));
     }
     GetNameOfActiveSource() {
 

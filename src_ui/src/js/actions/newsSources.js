@@ -14,13 +14,18 @@ export function fetchNewsSources() {
             })
     };
 }
-export function setNewsSource(newsSource){
+export function setNewsSource(newsSource, fx){
     return function(dispatch) {
         axios.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded';
         axios.put(urls.URL_SET_NEWS_SOURCES, { newsSource })
             .then((response) => {
                 if(response.data == true) {
                     dispatch({type: constants.SOURCES_SET_FULFILLED, value: newsSource});
+
+                    // Dirty way of doing it. Should have used actors but it's getting late.
+                    if(typeof fx == "function") {
+                        fx();
+                    }
                 }
             })
             .catch((err) => {

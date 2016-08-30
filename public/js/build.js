@@ -22106,7 +22106,7 @@
 	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
 	    var action = arguments[1];
 	
-	    console.log(action.value);
+	
 	    switch (action.type) {
 	        case constants.SOURCES_FETCH:
 	            {
@@ -23898,6 +23898,10 @@
 	
 	var _newsSources = __webpack_require__(222);
 	
+	var _categories = __webpack_require__(194);
+	
+	var _articles = __webpack_require__(217);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -23930,7 +23934,12 @@
 	    }, {
 	        key: "changeSource",
 	        value: function changeSource(source) {
-	            this.props.dispatch((0, _newsSources.setNewsSource)(source));
+	            var _this2 = this;
+	
+	            this.props.dispatch((0, _newsSources.setNewsSource)(source, function () {
+	                _this2.props.dispatch((0, _categories.fetchCategories)());
+	                _this2.props.dispatch((0, _articles.fetchHomePageArticles)());
+	            }));
 	        }
 	    }, {
 	        key: "GetNameOfActiveSource",
@@ -23948,7 +23957,7 @@
 	    }, {
 	        key: "render",
 	        value: function render() {
-	            var _this2 = this;
+	            var _this3 = this;
 	
 	            var newsSources = this.props.sources.map(function (source, key) {
 	                return _react2.default.createElement(
@@ -23956,7 +23965,7 @@
 	                    { key: key },
 	                    _react2.default.createElement(
 	                        "a",
-	                        { href: "#", onclick: "return false;", onClick: _this2.changeSource.bind(_this2, source.key) },
+	                        { href: "#", onclick: "return false;", onClick: _this3.changeSource.bind(_this3, source.key) },
 	                        source.name
 	                    )
 	                );
@@ -24022,12 +24031,17 @@
 	        });
 	    };
 	}
-	function setNewsSource(newsSource) {
+	function setNewsSource(newsSource, fx) {
 	    return function (dispatch) {
 	        _axios2.default.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded';
 	        _axios2.default.put(urls.URL_SET_NEWS_SOURCES, { newsSource: newsSource }).then(function (response) {
 	            if (response.data == true) {
 	                dispatch({ type: constants.SOURCES_SET_FULFILLED, value: newsSource });
+	
+	                // Dirty way of doing it. Should have used actors but it's getting late.
+	                if (typeof fx == "function") {
+	                    fx();
+	                }
 	            }
 	        }).catch(function (err) {
 	            dispatch({ type: constants.SOURCES_SET_REJECTED, value: err });
