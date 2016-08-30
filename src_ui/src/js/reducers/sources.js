@@ -1,9 +1,10 @@
 import * as constants from './../constants/reducers';
 
 var initialState = {
-    sources   : [],
-    fetching  : false,
-    error     : null,
+    sources     : [],
+    activeSource: "",
+    fetching    : false,
+    error       : null,
 };
 export default function reducer(state=initialState, action) {
 

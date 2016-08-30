@@ -6,7 +6,7 @@ import store from "./js/store/store"
 
 import CategoryComponent from "./js/components/categories"
 import ArticleComponent from "./js/components/articles"
-
+import NewsSourceComponent from "./js/components/newsSource"
 
 // Render the categories
 const categoriesContainer = document.getElementById('sidebar-wrapper');
@@ -21,3 +21,9 @@ ReactDOM.render(<Provider store={store}>
 </Provider>, articleContainer);
 
 // Render the sources
+const newsSourcesContainer    = document.getElementById('tester');
+ReactDOM.render(<Provider store={store}>
+    <NewsSourceComponent />
+</Provider>, newsSourcesContainer);
+
+

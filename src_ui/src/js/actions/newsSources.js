@@ -5,7 +5,7 @@ import * as urls from './../constants/urls';
 
 export function fetchNewsSources() {
     return function(dispatch) {
-        axios.get(urls.URL_GET_HOMEPAGE_ARTICLES)
+        axios.get(urls.URL_GET_NEWS_SOURCES)
             .then((response) => {
                 dispatch({type: constants.SOURCES_FETCH_FULFILLED, value: response.data})
             })

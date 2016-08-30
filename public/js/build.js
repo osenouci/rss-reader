@@ -68,6 +68,10 @@
 	
 	var _articles2 = _interopRequireDefault(_articles);
 	
+	var _newsSource = __webpack_require__(221);
+	
+	var _newsSource2 = _interopRequireDefault(_newsSource);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	// Render the categories
@@ -87,6 +91,12 @@
 	), articleContainer);
 	
 	// Render the sources
+	var newsSourcesContainer = document.getElementById('tester');
+	_reactDom2.default.render(_react2.default.createElement(
+	    _reactRedux.Provider,
+	    { store: _store2.default },
+	    _react2.default.createElement(_newsSource2.default, null)
+	), newsSourcesContainer);
 
 /***/ },
 /* 1 */
@@ -22066,7 +22076,7 @@
 /* 192 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 	
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
@@ -22084,6 +22094,7 @@
 	
 	var initialState = {
 	    sources: [],
+	    activeSource: "",
 	    fetching: false,
 	    error: null
 	};
@@ -23462,19 +23473,19 @@
 	});
 	//  The domain name of the API
 	// ################################################################
-	var API_URL = exports.API_URL = "http://localhost/rss_feed/rss-reader";
+	var API_URL = exports.API_URL = "http://localhost/rss_feed/rss-reader/api";
 	
 	//  Category URLs
 	// ################################################################
-	var URL_GET_CATEGORIES = exports.URL_GET_CATEGORIES = API_URL + "/api/categories";
+	var URL_GET_CATEGORIES = exports.URL_GET_CATEGORIES = API_URL + "/categories";
 	
 	//  Article URLs
 	// ################################################################
-	var URL_GET_HOMEPAGE_ARTICLES = exports.URL_GET_HOMEPAGE_ARTICLES = API_URL + "/api/articles/category";
+	var URL_GET_HOMEPAGE_ARTICLES = exports.URL_GET_HOMEPAGE_ARTICLES = API_URL + "/articles/category";
 	
 	//  News sources URLs
 	// ################################################################
-	var URL_GET_NEWS_SOURCES = exports.URL_GET_NEWS_SOURCES = API_URL + "/api/articles/category";
+	var URL_GET_NEWS_SOURCES = exports.URL_GET_NEWS_SOURCES = API_URL + "/sources";
 
 /***/ },
 /* 215 */
@@ -23836,6 +23847,119 @@
 	}(_react2.default.Component);
 	
 	exports.default = ArticlesListComponent;
+
+/***/ },
+/* 221 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = undefined;
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _dec, _class; /**
+	                   * Created by Othmane on 8/30/2016.
+	                   */
+	
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRedux = __webpack_require__(159);
+	
+	var _newsSources = __webpack_require__(222);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var NewsSourceComponent = (_dec = (0, _reactRedux.connect)(function (store) {
+	    return {
+	        articles: store.articles.articles,
+	        activeSource: store.articles.activeSource,
+	        fetching: store.articles.fetching,
+	        error: store.articles.error
+	    };
+	}), _dec(_class = function (_React$Component) {
+	    _inherits(NewsSourceComponent, _React$Component);
+	
+	    function NewsSourceComponent() {
+	        _classCallCheck(this, NewsSourceComponent);
+	
+	        return _possibleConstructorReturn(this, (NewsSourceComponent.__proto__ || Object.getPrototypeOf(NewsSourceComponent)).apply(this, arguments));
+	    }
+	
+	    _createClass(NewsSourceComponent, [{
+	        key: "componentWillMount",
+	        value: function componentWillMount() {
+	            this.props.dispatch((0, _newsSources.fetchNewsSources)());
+	        }
+	    }, {
+	        key: "render",
+	        value: function render() {
+	
+	            console.log(this.props);
+	            /*
+	                    if(this.props.articles.length) {
+	            
+	                        if(this.props.articles.length > 1) {
+	                            articles = <ArticlesListComponent articles={this.props.articles}/>
+	                        }
+	                    }
+	                    */
+	            return _react2.default.createElement("div", null);
+	        }
+	    }]);
+	
+	    return NewsSourceComponent;
+	}(_react2.default.Component)) || _class);
+	exports.default = NewsSourceComponent;
+
+/***/ },
+/* 222 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.fetchNewsSources = fetchNewsSources;
+	
+	var _axios = __webpack_require__(195);
+	
+	var _axios2 = _interopRequireDefault(_axios);
+	
+	var _reducers = __webpack_require__(189);
+	
+	var constants = _interopRequireWildcard(_reducers);
+	
+	var _urls = __webpack_require__(214);
+	
+	var urls = _interopRequireWildcard(_urls);
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function fetchNewsSources() {
+	    return function (dispatch) {
+	        _axios2.default.get(urls.URL_GET_NEWS_SOURCES).then(function (response) {
+	            dispatch({ type: constants.SOURCES_FETCH_FULFILLED, value: response.data });
+	        }).catch(function (err) {
+	            dispatch({ type: constants.SOURCES_FETCH_REJECTED, value: err });
+	        });
+	    };
+	}
 
 /***/ }
 /******/ ]);
