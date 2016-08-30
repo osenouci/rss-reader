@@ -8,7 +8,7 @@ export const URL_GET_CATEGORIES = API_URL + "/api/categories";
 
 //  Article URLs
 // ################################################################
-export const URL_GET_HOMEPAGE_ARTICLES = API_URL + "/articles/category";
+export const URL_GET_HOMEPAGE_ARTICLES = API_URL + "/api/articles/category";
 
 
 

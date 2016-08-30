@@ -21,12 +21,9 @@ export default class CategoryComponent extends React.Component {
     }
     render() {
 
-        console.log("Categories to display: ");
-        console.log(this.props.categories);
         const categories = this.props.categories.map((category, i) => {
             return <CategoryEntryComponent key={i}  {...category}/>
         });
-
 
         return <ul class="sidebar-nav">
             <li class="sidebar-brand">

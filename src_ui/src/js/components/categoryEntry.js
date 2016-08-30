@@ -4,9 +4,6 @@ export default class CategoryEntryComponent extends React.Component {
 
     render() {
 
-        console.log("Category props: ");
-        console.log(this.props);
-
         const {key, favorite, name} = this.props;
         const itemClass = favorite?"fav-icon-pressed":"fav-icon";
         const itemIcon  = favorite?"glyphicon-star":"glyphicon-star-empty";
