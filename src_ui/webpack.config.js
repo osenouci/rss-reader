@@ -20,14 +20,14 @@ module.exports = {
     ]
   },
   devServer: {
-    contentBase: "./src",
+    contentBase: path.join(__dirname, "../public"),
     colors: true,
     historyApiFallback: true,
     inline: true
-  },  
+  },
   output: {
-    path: __dirname + "/src/",
-    filename: "./../../public/js/app.js"
+    path: path.join(__dirname, "../public/js/"),
+    filename: "build.js"
   },
   plugins: debug ? [] : [
     new webpack.optimize.DedupePlugin(),
