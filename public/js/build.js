@@ -66,15 +66,14 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var app = document.getElementById('test-container');
-	
-	console.log(_categories2.default);
+	var categoriesContainer = document.getElementById('sidebar-wrapper');
+	var articleContainer = document.getElementById('article-wrapper');
 	
 	_reactDom2.default.render(_react2.default.createElement(
 	    _reactRedux.Provider,
 	    { store: _store2.default },
 	    _react2.default.createElement(_categories2.default, null)
-	), app);
+	), categoriesContainer);
 
 /***/ },
 /* 1 */
@@ -22107,6 +22106,8 @@
 	});
 	exports.default = undefined;
 	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
 	var _dec, _class; /**
@@ -22121,6 +22122,10 @@
 	var _reactRedux = __webpack_require__(159);
 	
 	var _categories = __webpack_require__(194);
+	
+	var _categoryEntry = __webpack_require__(215);
+	
+	var _categoryEntry2 = _interopRequireDefault(_categoryEntry);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -22154,15 +22159,25 @@
 	        key: "render",
 	        value: function render() {
 	
-	            console.log(this.props);
+	            console.log("Categories to display: ");
+	            console.log(this.props.categories);
+	            var categories = this.props.categories.map(function (category, i) {
+	                return _react2.default.createElement(_categoryEntry2.default, _extends({ key: i }, category));
+	            });
+	
 	            return _react2.default.createElement(
-	                "div",
-	                null,
+	                "ul",
+	                { className: "sidebar-nav" },
 	                _react2.default.createElement(
-	                    "h1",
-	                    null,
-	                    "categories"
-	                )
+	                    "li",
+	                    { className: "sidebar-brand" },
+	                    _react2.default.createElement(
+	                        "h2",
+	                        null,
+	                        "Categories"
+	                    )
+	                ),
+	                categories
 	            );
 	        }
 	    }]);
@@ -23433,9 +23448,84 @@
 	// ################################################################
 	var API_URL = exports.API_URL = "http://localhost/rss_feed/rss-reader";
 	
-	//  Categories domain names
+	//  Category URLs
 	// ################################################################
 	var URL_GET_CATEGORIES = exports.URL_GET_CATEGORIES = API_URL + "/api/categories";
+	
+	//  Article URLs
+	// ################################################################
+	var URL_GET_HOMEPAGE_ARTICLES = exports.URL_GET_HOMEPAGE_ARTICLES = API_URL + "/articles/category";
+
+/***/ },
+/* 215 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	        value: true
+	});
+	exports.default = undefined;
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var CategoryEntryComponent = function (_React$Component) {
+	        _inherits(CategoryEntryComponent, _React$Component);
+	
+	        function CategoryEntryComponent() {
+	                _classCallCheck(this, CategoryEntryComponent);
+	
+	                return _possibleConstructorReturn(this, (CategoryEntryComponent.__proto__ || Object.getPrototypeOf(CategoryEntryComponent)).apply(this, arguments));
+	        }
+	
+	        _createClass(CategoryEntryComponent, [{
+	                key: "render",
+	                value: function render() {
+	
+	                        console.log("Category props: ");
+	                        console.log(this.props);
+	
+	                        var _props = this.props;
+	                        var key = _props.key;
+	                        var favorite = _props.favorite;
+	                        var name = _props.name;
+	
+	                        var itemClass = favorite ? "fav-icon-pressed" : "fav-icon";
+	                        var itemIcon = favorite ? "glyphicon-star" : "glyphicon-star-empty";
+	
+	                        return _react2.default.createElement(
+	                                "li",
+	                                { key: key },
+	                                _react2.default.createElement(
+	                                        "a",
+	                                        { href: "#", className: itemClass },
+	                                        _react2.default.createElement("span", { className: "glyphicon " + itemIcon, "aria-hidden": "true" })
+	                                ),
+	                                _react2.default.createElement(
+	                                        "a",
+	                                        { href: "#", className: "link" },
+	                                        name
+	                                )
+	                        );
+	                }
+	        }]);
+	
+	        return CategoryEntryComponent;
+	}(_react2.default.Component);
+	
+	exports.default = CategoryEntryComponent;
 
 /***/ }
 /******/ ]);

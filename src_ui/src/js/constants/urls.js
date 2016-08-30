@@ -2,6 +2,14 @@
 // ################################################################
 export const API_URL = "http://localhost/rss_feed/rss-reader";
 
-//  Categories domain names
+//  Category URLs
 // ################################################################
 export const URL_GET_CATEGORIES = API_URL + "/api/categories";
+
+//  Article URLs
+// ################################################################
+export const URL_GET_HOMEPAGE_ARTICLES = API_URL + "/articles/category";
+
+
+
+

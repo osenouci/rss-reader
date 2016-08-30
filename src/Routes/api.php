@@ -8,7 +8,15 @@ $app->group('/api', function () use ($app) {
     $this->get('/categories', function ($request, $response, $args){
 
         $response->withAddedHeader('Content-Type','application/json');
-        $response->getBody()->write(json_encode($this->newsService->getCategories()));
+        $categories = $this->newsService->getCategories();
+        $favorites = $this->storage->getFavoriteCategories();
+
+        $result = [];
+        foreach($categories as $category) {
+            $result[] = ["name" => ucfirst($category), "favorite" => in_array($category, $favorites)];
+        }
+
+        $response->getBody()->write(json_encode($result));
     });
 
     // Get the articles

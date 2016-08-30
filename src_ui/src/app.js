@@ -7,10 +7,10 @@ import store from "./js/store/store"
 import CategoryComponent from "./js/components/categories"
 
 
-const app = document.getElementById('test-container');
+const categoriesContainer = document.getElementById('sidebar-wrapper');
+const articleContainer    = document.getElementById('article-wrapper');
 
-console.log(CategoryComponent);
 
 ReactDOM.render(<Provider store={store}>
     <CategoryComponent />
-</Provider>, app);
+</Provider>, categoriesContainer);
