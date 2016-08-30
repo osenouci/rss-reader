@@ -17,7 +17,7 @@ $newsSourceFactoy =new NewsAdapterFactory();
 $container = new \Slim\Container(); // Create the DI container
 $container['renderer'   ] = new PhpRenderer(APP_DIR . "/public");
 $container['storage'    ] = RSSReader\Storage\StorageFactory::getStorage(RSSReader\Storage\StorageFactory::SESSION_STORAGE);
-$container['newsService'] = $newsSourceFactoy->getSource(NewsAdapterFactory::REUTERS, $container['storage']);
+$container['newsService'] = $newsSourceFactoy->getSource(NewsAdapterFactory::NEWS_API, $container['storage']);
 
 $container['storage']->setActiveNewsSource(
     $newsSourceFactoy->getSelectedNewsSource()); // Save the name of the news source

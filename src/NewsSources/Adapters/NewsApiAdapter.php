@@ -39,8 +39,6 @@ class NewsApiAdapter implements NewsAdapter {
     }
     protected function readNewsData(){
 
-        //https://newsapi.org/v1/articles?source=bbc-sport&apiKey=3e22f2fcc1344975ae2b2e69379e2a6e
-        //https://newsapi.org/v1/sources?language=en
         $result = file_get_contents($this->URL . "v1/sources?language=en");
         $result = json_decode($result, true);
 
@@ -120,7 +118,7 @@ class NewsApiAdapter implements NewsAdapter {
             }
              */
 
-            $news = file_get_contents($this->URL . "v1/articles?source={$sources[0]}&sortBy=top&apiKey=3e22f2fcc1344975ae2b2e69379e2a6e");
+            $news = file_get_contents($this->URL . "v1/articles?source={$sources[0]}&apiKey=173c9c9388b84f0686c1ee13bae586fc");
             $news = (json_decode($news, true));
 
             if(empty($news["articles"])) {
