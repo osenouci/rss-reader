@@ -13,6 +13,7 @@ use \RSSReader\NewsSources\Adapters\Interfaces\NewsAdapter;
 class NewsApiAdapter implements NewsAdapter {
 
     protected $formatter;
+    protected $apiKey = "";
 
     /**
      * ReutersAdapter constructor.
@@ -27,6 +28,8 @@ class NewsApiAdapter implements NewsAdapter {
     {
         $this->URL  = $url;
         $this->data = ["categories" => []];
+
+        $this->apiKey = NEWSAPI_API_KEY;
 
         $this->readNewsData();
 
@@ -118,7 +121,7 @@ class NewsApiAdapter implements NewsAdapter {
             }
              */
 
-            $news = file_get_contents($this->URL . "v1/articles?source={$sources[0]}&apiKey=173c9c9388b84f0686c1ee13bae586fc");
+            $news = file_get_contents($this->URL . "v1/articles?source={$sources[0]}&apiKey=" . $this->apiKey);
             $news = (json_decode($news, true));
 
             if(empty($news["articles"])) {
