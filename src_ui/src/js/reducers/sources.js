@@ -7,7 +7,7 @@ var initialState = {
     error       : null,
 };
 export default function reducer(state=initialState, action) {
-
+    console.log(action.value);
     switch (action.type) {
         case constants.SOURCES_FETCH: {
             return {...state, fetching: true}
@@ -22,6 +22,23 @@ export default function reducer(state=initialState, action) {
                 sources: action.value.sources,
                 activeSource: action.value.active,
             }
+        }
+        case constants.SOURCES_SET_FULFILLED: {
+
+            return {
+                ...state,
+                fetching: false,
+                activeSource: action.value,
+            }
+        }
+        case constants.SOURCES_SET_REJECTED: {
+            return {
+                ...state,
+                fetching: false
+            }
+        }
+        case constants.SOURCES_SET: {
+            return {...state, fetching: true}
         }
     }
 

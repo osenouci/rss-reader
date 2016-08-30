@@ -54,7 +54,15 @@ $app->group('/api', function () use ($app) {
         $response->withAddedHeader('Content-Type','application/json');
         $newsSource = $request->getParam('newsSource');
 
-        if(!RSSReader\NewsSources\NewsAdapterFactory::isValidSource($newsSource)) {
+        $activeNewsSource = $this->storage->getActiveNewsSource();
+
+        if($activeNewsSource == $newsSource) {
+            $response->getBody()->write(json_encode(true));
+            return;
+        }
+
+        $factory = new RSSReader\NewsSources\NewsAdapterFactory($activeNewsSource, $this->storage);
+        if(!$newsSource OR !$factory->isValidSource($newsSource)) {
             $response->getBody()->write(json_encode(false));
         }
 

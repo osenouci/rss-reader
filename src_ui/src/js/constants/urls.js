@@ -13,6 +13,8 @@ export const URL_GET_HOMEPAGE_ARTICLES = API_URL + "/articles/category";
 //  News sources URLs
 // ################################################################
 export const URL_GET_NEWS_SOURCES = API_URL + "/sources";
+export const URL_SET_NEWS_SOURCES = API_URL + "/sources";
+
 
 
 

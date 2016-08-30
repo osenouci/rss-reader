@@ -91,7 +91,7 @@
 	), articleContainer);
 	
 	// Render the sources
-	var newsSourcesContainer = document.getElementById('tester');
+	var newsSourcesContainer = document.getElementById('source-selector');
 	_reactDom2.default.render(_react2.default.createElement(
 	    _reactRedux.Provider,
 	    { store: _store2.default },
@@ -21959,6 +21959,10 @@
 	var SOURCES_FETCH_REJECTED = exports.SOURCES_FETCH_REJECTED = "SOURCES_FETCH_REJECTED";
 	var SOURCES_FETCH_FULFILLED = exports.SOURCES_FETCH_FULFILLED = "SOURCES_FETCH_FULFILLED";
 	
+	var SOURCES_SET = exports.SOURCES_SET = "SOURCES_SET";
+	var SOURCES_SET_REJECTED = exports.SOURCES_SET_REJECTED = "SOURCES_SET_REJECTED";
+	var SOURCES_SET_FULFILLED = exports.SOURCES_SET_FULFILLED = "SOURCES_SET_FULFILLED";
+	
 	//  Favorite categories reducer constants
 	// ################################################################
 	var FAVORITES_FETCH = exports.FAVORITES_FETCH = "SOURCES_FETCH";
@@ -22102,7 +22106,7 @@
 	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
 	    var action = arguments[1];
 	
-	
+	    console.log(action.value);
 	    switch (action.type) {
 	        case constants.SOURCES_FETCH:
 	            {
@@ -22119,6 +22123,24 @@
 	                    sources: action.value.sources,
 	                    activeSource: action.value.active
 	                });
+	            }
+	        case constants.SOURCES_SET_FULFILLED:
+	            {
+	
+	                return _extends({}, state, {
+	                    fetching: false,
+	                    activeSource: action.value
+	                });
+	            }
+	        case constants.SOURCES_SET_REJECTED:
+	            {
+	                return _extends({}, state, {
+	                    fetching: false
+	                });
+	            }
+	        case constants.SOURCES_SET:
+	            {
+	                return _extends({}, state, { fetching: true });
 	            }
 	    }
 	
@@ -23487,6 +23509,7 @@
 	//  News sources URLs
 	// ################################################################
 	var URL_GET_NEWS_SOURCES = exports.URL_GET_NEWS_SOURCES = API_URL + "/sources";
+	var URL_SET_NEWS_SOURCES = exports.URL_SET_NEWS_SOURCES = API_URL + "/sources";
 
 /***/ },
 /* 215 */
@@ -23885,10 +23908,10 @@
 	
 	var NewsSourceComponent = (_dec = (0, _reactRedux.connect)(function (store) {
 	    return {
-	        articles: store.articles.articles,
-	        activeSource: store.articles.activeSource,
-	        fetching: store.articles.fetching,
-	        error: store.articles.error
+	        sources: store.sources.sources,
+	        activeSource: store.sources.activeSource,
+	        fetching: store.sources.fetching,
+	        error: store.sources.error
 	    };
 	}), _dec(_class = function (_React$Component) {
 	    _inherits(NewsSourceComponent, _React$Component);
@@ -23905,19 +23928,56 @@
 	            this.props.dispatch((0, _newsSources.fetchNewsSources)());
 	        }
 	    }, {
+	        key: "changeSource",
+	        value: function changeSource(source) {
+	            this.props.dispatch((0, _newsSources.setNewsSource)(source));
+	        }
+	    }, {
+	        key: "GetNameOfActiveSource",
+	        value: function GetNameOfActiveSource() {
+	
+	            for (var key in this.props.sources) {
+	
+	                if (this.props.sources[key].key == this.props.activeSource) {
+	                    return this.props.sources[key].name;
+	                }
+	            }
+	
+	            return "";
+	        }
+	    }, {
 	        key: "render",
 	        value: function render() {
+	            var _this2 = this;
 	
-	            console.log(this.props);
-	            /*
-	                    if(this.props.articles.length) {
-	            
-	                        if(this.props.articles.length > 1) {
-	                            articles = <ArticlesListComponent articles={this.props.articles}/>
-	                        }
-	                    }
-	                    */
-	            return _react2.default.createElement("div", null);
+	            var newsSources = this.props.sources.map(function (source, key) {
+	                return _react2.default.createElement(
+	                    "li",
+	                    { key: key },
+	                    _react2.default.createElement(
+	                        "a",
+	                        { href: "#", onclick: "return false;", onClick: _this2.changeSource.bind(_this2, source.key) },
+	                        source.name
+	                    )
+	                );
+	            });
+	
+	            return _react2.default.createElement(
+	                "div",
+	                { className: "dropdown" },
+	                _react2.default.createElement(
+	                    "button",
+	                    { className: "btn btn-default dropdown-toggle", type: "button", id: "dropdownMenu1", "data-toggle": "dropdown", "aria-haspopup": "true", "aria-expanded": "true" },
+	                    "News source: ",
+	                    this.GetNameOfActiveSource(),
+	                    _react2.default.createElement("span", { className: "caret" })
+	                ),
+	                _react2.default.createElement(
+	                    "ul",
+	                    { className: "dropdown-menu", "aria-labelledby": "dropdownMenu1" },
+	                    newsSources
+	                )
+	            );
 	        }
 	    }]);
 	
@@ -23935,6 +23995,7 @@
 	    value: true
 	});
 	exports.fetchNewsSources = fetchNewsSources;
+	exports.setNewsSource = setNewsSource;
 	
 	var _axios = __webpack_require__(195);
 	
@@ -23958,6 +24019,18 @@
 	            dispatch({ type: constants.SOURCES_FETCH_FULFILLED, value: response.data });
 	        }).catch(function (err) {
 	            dispatch({ type: constants.SOURCES_FETCH_REJECTED, value: err });
+	        });
+	    };
+	}
+	function setNewsSource(newsSource) {
+	    return function (dispatch) {
+	        _axios2.default.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded';
+	        _axios2.default.put(urls.URL_SET_NEWS_SOURCES, { newsSource: newsSource }).then(function (response) {
+	            if (response.data == true) {
+	                dispatch({ type: constants.SOURCES_SET_FULFILLED, value: newsSource });
+	            }
+	        }).catch(function (err) {
+	            dispatch({ type: constants.SOURCES_SET_REJECTED, value: err });
 	        });
 	    };
 	}

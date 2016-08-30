@@ -16,6 +16,10 @@ export const SOURCES_FETCH           = "SOURCES_FETCH";
 export const SOURCES_FETCH_REJECTED  = "SOURCES_FETCH_REJECTED";
 export const SOURCES_FETCH_FULFILLED = "SOURCES_FETCH_FULFILLED";
 
+export const SOURCES_SET           = "SOURCES_SET";
+export const SOURCES_SET_REJECTED  = "SOURCES_SET_REJECTED";
+export const SOURCES_SET_FULFILLED = "SOURCES_SET_FULFILLED";
+
 //  Favorite categories reducer constants
 // ################################################################
 export const FAVORITES_FETCH           = "SOURCES_FETCH";

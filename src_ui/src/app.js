@@ -21,7 +21,7 @@ ReactDOM.render(<Provider store={store}>
 </Provider>, articleContainer);
 
 // Render the sources
-const newsSourcesContainer    = document.getElementById('tester');
+const newsSourcesContainer    = document.getElementById('source-selector');
 ReactDOM.render(<Provider store={store}>
     <NewsSourceComponent />
 </Provider>, newsSourcesContainer);
