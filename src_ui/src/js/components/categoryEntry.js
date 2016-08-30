@@ -1,7 +1,16 @@
 import React from "react"
+import { connect } from "react-redux"
+
+import { fetchCategoryArticles } from "./../actions/articles"
+
+@connect((store) => ({}))   // Added in order to give us access to the dispatch function
 
 export default class CategoryEntryComponent extends React.Component {
 
+    loadCategories(event) {
+        event.preventDefault();
+        this.props.dispatch(fetchCategoryArticles(this.props.name));
+    }
     render() {
 
         const {key, favorite, name} = this.props;
@@ -12,7 +21,7 @@ export default class CategoryEntryComponent extends React.Component {
                 <a href="#" className={itemClass}>
                     <span className={"glyphicon " + itemIcon} aria-hidden="true"></span>
                 </a>
-                <a href="#" class="link">{name}</a>
+                <a href="#" class="link" onClick={this.loadCategories.bind(this)}>{name}</a>
             </li>
     }
 }

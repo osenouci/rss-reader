@@ -14,3 +14,15 @@ export function fetchHomePageArticles() {
             })
     }
 }
+
+export function fetchCategoryArticles(category) {
+    return function(dispatch) {
+        axios.get(urls.URL_GET_HOMEPAGE_ARTICLES + "/" + category)
+            .then((response) => {
+                dispatch({type: constants.ARTICLES_FETCH_FULFILLED, value: response.data})
+            })
+            .catch((err) => {
+                dispatch({type: constants.ARTICLES_FETCH_REJECTED, value: err})
+            })
+    }
+}

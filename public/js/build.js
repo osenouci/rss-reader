@@ -23485,9 +23485,15 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
+	var _dec, _class;
+	
 	var _react = __webpack_require__(1);
 	
 	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRedux = __webpack_require__(159);
+	
+	var _articles = __webpack_require__(217);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -23497,7 +23503,11 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var CategoryEntryComponent = function (_React$Component) {
+	// Added in order to give us access to the dispatch function
+	
+	var CategoryEntryComponent = (_dec = (0, _reactRedux.connect)(function (store) {
+	    return {};
+	}), _dec(_class = function (_React$Component) {
 	    _inherits(CategoryEntryComponent, _React$Component);
 	
 	    function CategoryEntryComponent() {
@@ -23507,6 +23517,12 @@
 	    }
 	
 	    _createClass(CategoryEntryComponent, [{
+	        key: "loadCategories",
+	        value: function loadCategories(event) {
+	            event.preventDefault();
+	            this.props.dispatch((0, _articles.fetchCategoryArticles)(this.props.name));
+	        }
+	    }, {
 	        key: "render",
 	        value: function render() {
 	            var _props = this.props;
@@ -23527,7 +23543,7 @@
 	                ),
 	                _react2.default.createElement(
 	                    "a",
-	                    { href: "#", className: "link" },
+	                    { href: "#", className: "link", onClick: this.loadCategories.bind(this) },
 	                    name
 	                )
 	            );
@@ -23535,8 +23551,7 @@
 	    }]);
 	
 	    return CategoryEntryComponent;
-	}(_react2.default.Component);
-	
+	}(_react2.default.Component)) || _class);
 	exports.default = CategoryEntryComponent;
 
 /***/ },
@@ -23632,6 +23647,7 @@
 	    value: true
 	});
 	exports.fetchHomePageArticles = fetchHomePageArticles;
+	exports.fetchCategoryArticles = fetchCategoryArticles;
 	
 	var _axios = __webpack_require__(195);
 	
@@ -23652,6 +23668,16 @@
 	function fetchHomePageArticles() {
 	    return function (dispatch) {
 	        _axios2.default.get(urls.URL_GET_HOMEPAGE_ARTICLES).then(function (response) {
+	            dispatch({ type: constants.ARTICLES_FETCH_FULFILLED, value: response.data });
+	        }).catch(function (err) {
+	            dispatch({ type: constants.ARTICLES_FETCH_REJECTED, value: err });
+	        });
+	    };
+	}
+	
+	function fetchCategoryArticles(category) {
+	    return function (dispatch) {
+	        _axios2.default.get(urls.URL_GET_HOMEPAGE_ARTICLES + "/" + category).then(function (response) {
 	            dispatch({ type: constants.ARTICLES_FETCH_FULFILLED, value: response.data });
 	        }).catch(function (err) {
 	            dispatch({ type: constants.ARTICLES_FETCH_REJECTED, value: err });
