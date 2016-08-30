@@ -5,6 +5,9 @@ import * as urls from './../constants/urls';
 
 export function fetchHomePageArticles() {
     return function(dispatch) {
+
+        dispatch({type: constants.ARTICLES_FETCH}); // Show the spinner
+
         axios.get(urls.URL_GET_HOMEPAGE_ARTICLES)
             .then((response) => {
                 dispatch({type: constants.ARTICLES_FETCH_FULFILLED, value: response.data})
@@ -17,6 +20,9 @@ export function fetchHomePageArticles() {
 
 export function fetchCategoryArticles(category) {
     return function(dispatch) {
+
+        dispatch({type: constants.ARTICLES_FETCH}); // Show the spinner
+
         axios.get(urls.URL_GET_HOMEPAGE_ARTICLES + "/" + category)
             .then((response) => {
                 dispatch({type: constants.ARTICLES_FETCH_FULFILLED, value: response.data})

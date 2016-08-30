@@ -6,6 +6,7 @@ import { connect } from "react-redux"
 
 import { fetchHomePageArticles } from "./../actions/articles"
 import ArticlesListComponent from "./articlesList"
+import SpinnerComponent from "./spinner"
 
 @connect((store) => {
     return {
@@ -21,8 +22,13 @@ export default class ArticleComponent extends React.Component {
     }
     render() {
 
-        var articles = "",
-            mainArticle = "";
+        console.log("is loading: " + this.props.fetching);
+
+        if(this.props.fetching) {
+            return <SpinnerComponent />
+        }
+
+        var articles = "";
 
         if(this.props.articles.length) {
 
