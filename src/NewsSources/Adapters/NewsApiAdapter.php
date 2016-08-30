@@ -94,8 +94,10 @@ class NewsApiAdapter implements NewsAdapter {
     public function getCategoryNews(string $category) :array {
 
         $sources = $articles = [];
+
         foreach($this->data["categories"] as $key => $value) {
-            if($key == $category) {
+
+            if(strtolower($key) == strtolower($category)) {
                 $sources = $value;
                 break;
             }

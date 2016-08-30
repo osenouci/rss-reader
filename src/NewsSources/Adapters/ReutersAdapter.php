@@ -118,7 +118,7 @@ class ReutersAdapter implements NewsAdapter {
         $articles = [];
 
         foreach($this->data as $key => $value) {
-            if($key == $category) {
+            if(strtolower($key) == strtolower($category)) {
                 $url = $value;
                 break;
             }
