@@ -1,5 +1,5 @@
 # RSS Reader
-Simple news RSS Reader that is capable of reading news from several news API. 
+Simple news RSS Reader that is capable of reading news from several news APIs. 
 It currently can read from two APIs:
 * [reuters.com](reuters.com)
 * [newsapi.org](https://newsapi.org)
@@ -14,15 +14,15 @@ The project has been divided into two parts:
 
 ### 1.1) Feature list
 The RSS Reader has the following feature:
-* Display news articles.
-* Display categories that we can use to view different type of articles for example sports or economy.
+* Displays news articles.
+* Displays categories that we can use to view different types of articles for example sports or economy.
 * We can change the news source.
-* We can select a favorite category by clicking on the star on its life. When we revisit the RSS Reader
+* We can select a favorite category by clicking on the star on its left. When we revisit the RSS Reader
 or refresh the page, the content of the favorite category will be displayed in the home page.
-* Device friendly. Works on Desktop, tablets and mobile phones.
+* Device friendly (Responsive). Works on desktop, tablets and mobile devices.
 
 ## 2) Web API (SLIM based)
-Based of SLIM. It uses different request methods (GET, POST, PUT and DELETE) to carry out operations. 
+Based on SLIM framework. It uses different request methods (GET, POST, PUT and DELETE) to carry out operations. 
 It can be easily extended to support more news APIs.
 
 ### 2.1) Requirements
@@ -49,13 +49,13 @@ Currently the RSS Reader supports:
 * [reuters.com](reuters.com)
 * [newsapi.org](https://newsapi.org)
 
-If you would you like to extend by adding more news sources then create a news adapter by implementing the following
+If you would you like to extend the client by adding more news sources then create a news adapter by implementing the following
 interface:
 ```
 RSSReader\NewsSources\Adapters\Interfaces\NewsAdapter
 ```
 
-And finally add your `Adapter` to the Adapter factory:
+And finally add your `Adapter` to the News Adapter factory:
 ```
 RSSReader\NewsSources\NewsAdapterFactory
 ```
@@ -63,13 +63,13 @@ RSSReader\NewsSources\NewsAdapterFactory
 ## 3) RSS client UI
 The client is a stand alone HTML page. The page can be run in one of two ways:
 1. Can be served to the audience using a web server like apache. 
-2. Easy way: `Can be simply downloaded to the desktop and run it in a browser.` 
+2. The easy way: `Can be simply downloaded to the desktop and run it in a browser.` 
 
 The stand alone page has been created using:
 * react
 * Redux
 * Bootstrap
-* Webpack (Translates ES6 to ES5 and also compresses the JS code into a single file.)
+* Webpack (Translates ES6 to ES5 using babel and also compresses the JS code into a single file.)
 
 The stand alone client page location:
 ```
