@@ -1,7 +1,7 @@
 # RSS Reader
 Simple news RSS Reader that is capable of reading news from several news APIs. 
 It currently can read from two APIs:
-* [reuters.com](reuters.com)
+* [reuters.com](reuters.com) `Does not support images`
 * [newsapi.org](https://newsapi.org)
 
 ```
